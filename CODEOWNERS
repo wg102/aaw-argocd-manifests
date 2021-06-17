@@ -1,0 +1,18 @@
+# DAaaS are the default administrators
+*                     @statcan/daaas
+
+# Codeowners is restricted
+CODEOWNERS            @statcan/daaas-admins
+LICENSE               @statcan/daaas-admins
+LICENSE.md            @statcan/daaas-admins
+
+# Workflows are restricted
+/.github/workflows/   @statcan/daaas-workflows
+
+# Project-specific owners
+#
+# User:
+## /org-fdi-system/ @githubuser
+# Team:
+## /org-fdi-system/ @statcan/teamname
+# Multiple can be set on the same line
