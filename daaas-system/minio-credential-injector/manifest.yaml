@@ -45,6 +45,7 @@ metadata:
   labels:
     apps.kubernetes.io/name: minio-credential-injector
 spec:
+  replicas: 3
   selector:
     matchLabels:
       apps.kubernetes.io/name: minio-credential-injector
