@@ -32,7 +32,7 @@ spec:
   - minio-credential-injector.daaas-system.svc
   - minio-credential-injector.daaas-system.svc.cluster
   isCA: true
-  duration: 8760h
+  duration: 8760h0m0s
   issuerRef:
     name: minio-credential-injector-issuer
     kind: Issuer
