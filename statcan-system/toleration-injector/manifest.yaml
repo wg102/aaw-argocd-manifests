@@ -32,7 +32,7 @@ spec:
   - toleration-injector.statcan-system.svc
   - toleration-injector.statcan-system.svc.cluster
   isCA: true
-  duration: 8760h
+  duration: 8760h0m0s
   issuerRef:
     name: toleration-injector-issuer
     kind: Issuer
