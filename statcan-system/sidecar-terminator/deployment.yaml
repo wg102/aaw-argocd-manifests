@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sidecar-terminator
+  namespace: statcan-system
+  labels:
+    app.kubernetes.io/name: sidecar-terminator
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: sidecar-terminator
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: sidecar-terminator
+    spec:
+      tolerations:
+        - key: CriticalAddonsOnly
+          operator: Exists
+          effect: NoSchedule
+      serviceAccountName: sidecar-terminator
+      containers:
+      - image: zachomedia/kubernetes-sidecar-terminator
+        name: sidecar-terminator
+        args:
+          - --lock-namespace=statcan-system
+        resources:
+          requests:
+            cpu: 10m
+            memory: 30M
+          limits:
+            cpu: 100m
+            memory: 100M
