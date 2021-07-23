@@ -1,0 +1,210 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: profile-configurator
+  namespace: daaas-system
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: profile-configurator
+  namespace: daaas-system
+  labels:
+    apps.kubernetes.io/name: profile-configurator
+spec:
+  selector:
+    matchLabels:
+      apps.kubernetes.io/name: profile-configurator
+  template:
+    metadata:
+      labels:
+        apps.kubernetes.io/name: profile-configurator
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-configmap: "profile-configurator-vault-agent-config"
+        vault.hashicorp.com/agent-pre-populate: "false"
+        sidecar.istio.io/inject: 'false'
+    spec:
+      serviceAccountName: profile-configurator
+      imagePullSecrets:
+        - name: k8scc01covidacr-registry-connection
+      containers:
+      - name: profile-configurator
+        image: k8scc01covidacr.azurecr.io/kubeflow-controller:1d0bfdc8ebde94854efbfd102332e27df2f4791e
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+          - name: VAULT_AGENT_ADDR
+            value: http://127.0.0.1:8100
+          - name: MINIO_INSTANCES
+            value: minio_premium,minio_standard
+          - name: KUBERNETES_AUTH_PATH
+            value: auth/aaw-prod-cc-00
+          - name: OIDC_AUTH_ACCESSOR
+            value: auth_oidc_538e023c
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: profile-configurator
+rules:
+- apiGroups:
+    - ''
+  resources:
+    - 'secrets'
+    - 'serviceaccounts'
+  verbs:
+    - watch
+    - list
+- apiGroups:
+    - ''
+  resources:
+    - 'secrets'
+  verbs:
+    - create
+- apiGroups:
+    - ''
+  resources:
+    - 'secrets'
+  verbs:
+    - get
+    - create
+    - update
+    - delete
+  resourceNames:
+    - image-pull-secret
+- apiGroups:
+    - ''
+  resources:
+    - 'serviceaccounts'
+  verbs:
+    - get
+    - update
+  resourceNames:
+    - default-editor
+- apiGroups:
+    - 'kubeflow.org'
+  resources:
+    - 'profiles'
+    - 'poddefaults'
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+- apiGroups:
+    - ''
+  resources:
+    - 'events'
+  verbs:
+    - create
+    - patch
+- apiGroups:
+    - rbac.authorization.k8s.io
+  resources:
+    - 'rolebindings'
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - delete
+- apiGroups:
+    - networking.istio.io
+  resources:
+    - 'envoyfilters'
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - delete
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: profile-configurator
+subjects:
+- kind: ServiceAccount
+  name: profile-configurator
+  namespace: daaas-system
+roleRef:
+  kind: ClusterRole
+  name: profile-configurator
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: profile-configurator-vault-agent-config
+  namespace: daaas-system
+data:
+  config.hcl: |
+    "auto_auth" = {
+      "method" = {
+        "config" = {
+          "role" = "profile-configurator"
+        }
+        "type" = "kubernetes"
+        "mount_path" = "auth/aaw-dev-cc-00"
+      }
+    }
+
+    "exit_after_auth" = false
+    "pid_file" = "/home/vault/.pid"
+
+    cache {
+      "use_auto_auth_token" = "force"
+    }
+
+    listener "tcp" {
+      address = "127.0.0.1:8100"
+      "tls_disable" = true
+    }
+
+    "vault" = {
+      "address" = "https://vault.aaw-dev.cloud.statcan.ca"
+    }
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: seldon-user
+rules:
+- apiGroups:
+  - machinelearning.seldon.io
+  resources:
+  - seldondeployments
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: seldon-profile-configurator
+subjects:
+- kind: ServiceAccount
+  name: profile-configurator
+  namespace: daaas-system
+roleRef:
+  kind: ClusterRole
+  name: seldon-user
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-profile-configurator
+subjects:
+- kind: ServiceAccount
+  name: profile-configurator
+  namespace: daaas-system
+roleRef:
+  kind: ClusterRole
+  name: argo
+  apiGroup: rbac.authorization.k8s.io
