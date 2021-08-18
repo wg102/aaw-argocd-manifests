@@ -97,7 +97,7 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingWebhookConfiguration
 metadata:
   annotations:
-    cert-manager.io/inject-ca-from: daaas/minio-credential-injector
+    cert-manager.io/inject-ca-from: daaas-system/minio-credential-injector
   labels:
     apps.kubernetes.io/name: minio-credential-injector
   name: minio-credential-injector
