@@ -167,7 +167,7 @@ data:
     }
 
     "vault" = {
-      "address" = "https://vault.aaw-dev.cloud.statcan.ca"
+      "address" = "http://vault.vault-system:8200"
     }
 ---
 apiVersion: rbac.authorization.k8s.io/v1
