@@ -61,7 +61,7 @@ spec:
         - name: k8scc01covidacr-registry-connection
       containers:
       - name: minio-credential-injector
-        image: k8scc01covidacr.azurecr.io/minio-credential-injector:9f4524abdc84c5a6ce5ca6a3991bc5bd0da42b3c
+        image: k8scc01covidacr.azurecr.io/minio-credential-injector:3261c555ae891fb3605687a5737ca2cc40a2675e
         resources:
           limits:
             memory: "128Mi"
