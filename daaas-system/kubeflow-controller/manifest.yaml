@@ -38,7 +38,7 @@ spec:
           - name: VAULT_AGENT_ADDR
             value: http://127.0.0.1:8100
           - name: MINIO_INSTANCES
-            value: minio_premium,minio_standard,minio_protected_b
+            value: minio_premium,minio_standard
           - name: KUBERNETES_AUTH_PATH
             value: auth/aaw-dev-cc-00
           - name: OIDC_AUTH_ACCESSOR
