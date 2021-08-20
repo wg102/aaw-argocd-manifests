@@ -53,10 +53,7 @@ spec:
       labels:
         apps.kubernetes.io/name: goofys-injector
       annotations:
-        sidecar.istio.io/excludeInboundPorts: '8443'
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-configmap: "goofys-injector-vault-agent-config"
-        vault.hashicorp.com/agent-pre-populate: "false"
+        traffic.sidecar.istio.io/excludeInboundPorts: '8443'
     spec:
       serviceAccountName: goofys-injector
       containers:
@@ -80,39 +77,6 @@ spec:
       - name: certs
         secret:
           secretName: goofys-injector-tls
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: goofys-injector-vault-agent-config
-  namespace: daaas-system
-data:
-  config.hcl: |
-    "auto_auth" = {
-      "method" = {
-        "config" = {
-          "role" = "goofys-injector"
-        }
-        "type" = "kubernetes"
-        "mount_path" = "auth/aaw-dev-cc-00"
-      }
-    }
-
-    "exit_after_auth" = false
-    "pid_file" = "/home/vault/.pid"
-
-    cache {
-      "use_auto_auth_token" = "force"
-    }
-
-    listener "tcp" {
-      address = "127.0.0.1:8100"
-      "tls_disable" = true
-    }
-
-    "vault" = {
-      "address" = "http://vault.vault-system:8200"
-    }
 ---
 apiVersion: v1
 kind: Service
