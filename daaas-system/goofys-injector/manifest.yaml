@@ -32,7 +32,7 @@ spec:
   - goofys-injector.daaas-system.svc
   - goofys-injector.daaas-system.svc.cluster
   isCA: true
-  duration: 8760h
+  duration: 8760h0m0s
   issuerRef:
     name: goofys-injector-issuer
     kind: Issuer
