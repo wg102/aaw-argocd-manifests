@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gatekeeper-constraints
+  namespace: statcan-system
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  project: platform
+  destination:
+    namespace: statcan-system
+    name: in-cluster
+  source:
+    repoURL: 'https://github.com/StatCan/aaw-gatekeeper-constraints.git'
+    path: .
+    targetRevision: main
+    directory:
+      recurse: true
+      jsonnet: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
