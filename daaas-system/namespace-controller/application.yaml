@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: namespace-controller
+  namespace: daaas-system
+spec:
+  project: platform
+  destination:
+    namespace: daaas-system
+    name: in-cluster
+  source:
+    repoURL: 'https://statcan.github.io/charts'
+    chart: namespace-controller
+    targetRevision: 0.0.2
+    helm:
+      releaseName: namespace-controller
+      values: |
+        image:
+          repository: k8scc01covidacr.azurecr.io/namespace-controller
+          tag: 949b8b02d837fcebd64a135d103e61486185b1f4
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

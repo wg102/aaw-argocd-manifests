@@ -1,11 +1,34 @@
 [(Français)](#le-nom-du-projet)
 
-## Name of the project
+## AAW ArgoCD Manifests
 
-- What is this project?
-- How does it work?
-- Who will use this project?
-- What is the goal of this project?
+The manifests to deploy the AAW. To deploy this, pick a target branch (i.e. `dev` or `master`) and then deploy this application
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aaw-statcan-system
+  namespace: statcan-system
+spec:
+  project: platform
+  destination:
+    namespace: statcan-system
+    name: in-cluster
+  source:
+    repoURL: 'https://github.com/StatCan/aaw-argocd-manifests'
+    path: statcan-system
+    targetRevision: dev
+    directory:
+      recurse: true
+      jsonnet: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+This deploys **just** the `statcan-system`. Create a few more of these to deploy the other systems. You can then load these into your favorite bootstrapping system (either another argocd instance or terraform).
 
 ### How to Contribute
 
