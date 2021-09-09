@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: 'https://github.com/StatCan/gatekeeper-policies.git'
     path: .
-    targetRevision: feat-aaw-policies
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
