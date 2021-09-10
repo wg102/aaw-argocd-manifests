@@ -73,7 +73,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: notebook-auth-policy-checker
-  namespace: daaas
+  namespace: daaas-system
 roleRef:
   kind: ClusterRole
   name: notebook-auth-policy-checker
