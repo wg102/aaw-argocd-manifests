@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: etcd
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: minio-system
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: etcd
+    targetRevision: 6.2.9
+    helm:
+      values: |
+        nameOverride: "minio-gateway"
+        auth:
+          rbac:
+            enabled: false
+        #image:
+        #  registry: docker.io
+        #  repository: bitnami/etcd
+        #  tag: 3.3.9-debian-9-r73
+        replicaCount: 3
+        persistence:
+          enabled: false
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true

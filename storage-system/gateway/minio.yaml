@@ -1,0 +1,61 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minio-gateway
+  namespace: argocd
+spec:
+  project: default
+  destination:
+    namespace: minio-system
+    server: https://kubernetes.default.svc
+  source:
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: minio
+    targetRevision: 7.2.0
+    helm:
+      values: |
+        ## MinIO(R) Gateway configuration
+        nameOverride: "minio-gateway"
+        global:
+          minio:
+            existingSecret: minio-gateway-secret
+        gateway:
+          enabled: true
+          type: azure
+          autoscaling:
+            enabled: true
+            minReplicas: "2"
+            maxReplicas: "4"
+            targetCPU: "60"
+            targetMemory: "60"
+          auth:
+            azure:
+              storageAccountNameExistingSecret: "azure-blob-storage"
+              storageAccountNameExistingSecretKey: "storageAccountName"
+              storageAccountKeyExistingSecret: "azure-blob-storage"
+              storageAccountKeyExistingSecretKey: "storageAccountKey"
+        extraEnv:
+          - name: MINIO_ETCD_ENDPOINTS
+            value: http://etcd-minio-gateway-headless:2379/
+          - name: MINIO_IAM_OPA_URL
+            value: http://minio-opa:8181/v1/data/httpapi/authz
+        image:
+          registry: docker.io
+          repository: bitnami/minio
+          tag: 2021.5.27-debian-10-r8
+        ingress:
+          enabled: false
+          hostname: minio.local
+        resources:
+          limits:
+            cpu: "2"
+            memory: 8Gi
+          requests:
+            cpu: "2"
+            memory: 8Gi
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
