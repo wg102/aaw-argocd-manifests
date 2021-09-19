@@ -22,12 +22,12 @@ spec:
         gateway:
           enabled: true
           type: azure
-          autoscaling:
-            enabled: true
-            minReplicas: "2"
-            maxReplicas: "4"
-            targetCPU: "60"
-            targetMemory: "60"
+          # autoscaling:
+          #   enabled: true
+          #   minReplicas: "2"
+          #   maxReplicas: "4"
+          #   targetCPU: "60"
+          #   targetMemory: "60"
           auth:
             azure:
               storageAccountNameExistingSecret: "azure-blob-storage"

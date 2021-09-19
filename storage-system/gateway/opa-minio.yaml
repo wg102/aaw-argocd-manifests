@@ -35,7 +35,7 @@ spec:
       containers:
         - name: opa
           securityContext: {}
-          image: "openpolicyagent/opa:0.19.1"
+          image: "openpolicyagent/opa:0.32.0"
           imagePullPolicy: Always
           args:
             - run
