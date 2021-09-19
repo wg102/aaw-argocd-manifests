@@ -37,7 +37,8 @@ spec:
       containers:
         - name: opa
           securityContext: {}
-          image: "openpolicyagent/opa:0.32.0"
+          # image: "openpolicyagent/opa:0.32.0"
+          image: "k8scc01covidacr.azurecr.io/opa:blair-0.32.0"
           imagePullPolicy: Always
           args:
             - run

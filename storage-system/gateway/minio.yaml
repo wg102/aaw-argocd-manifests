@@ -40,9 +40,12 @@ spec:
           - name: MINIO_IAM_OPA_URL
             value: http://minio-opa:8181/v1/data/httpapi/authz
         image:
-          registry: docker.io
-          repository: bitnami/minio
+          registry: k8scc01covidacr.azurecr.io
+          repository: minio
           tag: 2021.5.27-debian-10-r8
+          # registry: docker.io
+          # repository: bitnami/minio
+          # tag: 2021.5.27-debian-10-r8
         ingress:
           enabled: false
           hostname: minio.local
