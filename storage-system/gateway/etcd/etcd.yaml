@@ -182,8 +182,12 @@ spec:
                 command:
                   - /opt/bitnami/scripts/etcd/prestop.sh
           resources:
-            limits: {}
-            requests: {}
+            limits:
+              cpu: "2"
+              memory: 8Gi
+            requests:
+              cpu: "2"
+              memory: 8Gi
           volumeMounts:
             - name: data
               mountPath: /bitnami/etcd
