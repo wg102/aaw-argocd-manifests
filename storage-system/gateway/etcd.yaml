@@ -1,36 +1,36 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: etcd
-  namespace: daaas-system
-spec:
-  project: default
-  destination:
-    namespace: blair-drummond
-    server: https://kubernetes.default.svc
-  source:
-    repoURL: https://charts.bitnami.com/bitnami
-    chart: etcd
-    targetRevision: 6.2.9
-    helm:
-      values: |
-        nameOverride: "minio-gateway"
-        auth:
-          rbac:
-            enabled: false
-        image:
-          # registry: docker.io
-          # repository: bitnami/etcd
-          # tag: 3.5.0-debian-10-r64
-          registry: k8scc01covidacr.azurecr.io
-          repository: etcd
-          tag: 3.5.0-debian-10-r64
-        replicaCount: 3
-        persistence:
-          enabled: false
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-    - CreateNamespace=true
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: etcd
+#   namespace: daaas-system
+# spec:
+#   project: default
+#   destination:
+#     namespace: blair-drummond
+#     server: https://kubernetes.default.svc
+#   source:
+#     repoURL: https://charts.bitnami.com/bitnami
+#     chart: etcd
+#     targetRevision: 6.2.9
+#     helm:
+#       values: |
+#         nameOverride: "minio-gateway"
+#         auth:
+#           rbac:
+#             enabled: false
+#         image:
+#           # registry: docker.io
+#           # repository: bitnami/etcd
+#           # tag: 3.5.0-debian-10-r64
+#           registry: k8scc01covidacr.azurecr.io
+#           repository: etcd
+#           tag: 3.5.0-debian-10-r64
+#         replicaCount: 3
+#         persistence:
+#           enabled: false
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#     - CreateNamespace=true
