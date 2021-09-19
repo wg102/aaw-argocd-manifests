@@ -6,9 +6,9 @@ metadata:
   name: etcd-minio-gateway-headless
   namespace: blair-drummond
   labels:
-    app.kubernetes.io/name: etcd-minio-gateway
-    helm.sh/chart: etcd-6.3.3
-    app.kubernetes.io/instance: etcd-minio-gateway
+    app.kubernetes.io/name: minio-gateway
+    helm.sh/chart: etcd-6.8.2
+    app.kubernetes.io/instance: etcd
   annotations:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
@@ -23,8 +23,8 @@ spec:
       port: 2380
       targetPort: peer
   selector:
-    app.kubernetes.io/name: etcd-minio-gateway
-    app.kubernetes.io/instance: etcd-minio-gateway
+    app.kubernetes.io/name: minio-gateway
+    app.kubernetes.io/instance: etcd
 ---
 # Source: etcd/templates/svc.yaml
 apiVersion: v1
@@ -33,9 +33,9 @@ metadata:
   name: etcd-minio-gateway
   namespace: blair-drummond
   labels:
-    app.kubernetes.io/name: etcd-minio-gateway
-    helm.sh/chart: etcd-6.3.3
-    app.kubernetes.io/instance: etcd-minio-gateway
+    app.kubernetes.io/name: minio-gateway
+    helm.sh/chart: etcd-6.8.2
+    app.kubernetes.io/instance: etcd
   annotations:
 spec:
   type: ClusterIP
@@ -49,8 +49,8 @@ spec:
       targetPort: peer
       nodePort: null
   selector:
-    app.kubernetes.io/name: etcd-minio-gateway
-    app.kubernetes.io/instance: etcd-minio-gateway
+    app.kubernetes.io/name: minio-gateway
+    app.kubernetes.io/instance: etcd
 ---
 # Source: etcd/templates/statefulset.yaml
 apiVersion: apps/v1
@@ -59,15 +59,15 @@ metadata:
   name: etcd-minio-gateway
   namespace: blair-drummond
   labels:
-    app.kubernetes.io/name: etcd-minio-gateway
-    helm.sh/chart: etcd-6.3.3
-    app.kubernetes.io/instance: etcd-minio-gateway
+    app.kubernetes.io/name: minio-gateway
+    helm.sh/chart: etcd-6.8.2
+    app.kubernetes.io/instance: etcd
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: etcd-minio-gateway
-      app.kubernetes.io/instance: etcd-minio-gateway
+      app.kubernetes.io/name: minio-gateway
+      app.kubernetes.io/instance: etcd
   serviceName: etcd-minio-gateway-headless
   podManagementPolicy: Parallel
   updateStrategy:
@@ -75,9 +75,9 @@ spec:
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: etcd-minio-gateway
-        helm.sh/chart: etcd-6.3.3
-        app.kubernetes.io/instance: etcd-minio-gateway
+        app.kubernetes.io/name: minio-gateway
+        helm.sh/chart: etcd-6.8.2
+        app.kubernetes.io/instance: etcd
       annotations:
     spec:
       
@@ -89,8 +89,8 @@ spec:
             - podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    app.kubernetes.io/name: etcd-minio-gateway
-                    app.kubernetes.io/instance: etcd-minio-gateway
+                    app.kubernetes.io/name: minio-gateway
+                    app.kubernetes.io/instance: etcd
                 namespaces:
                   - "blair-drummond"
                 topologyKey: kubernetes.io/hostname
@@ -142,14 +142,6 @@ spec:
               value: "http://$(MY_POD_NAME).etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380"
             - name: ETCD_LISTEN_PEER_URLS
               value: "http://0.0.0.0:2380"
-            - name: ETCD_INITIAL_CLUSTER_TOKEN
-              value: "etcd-cluster-k8s"
-            - name: ETCD_INITIAL_CLUSTER_STATE
-              value: "new"
-            - name: ETCD_INITIAL_CLUSTER
-              value: "etcd-minio-gateway-0=http://etcd-minio-gateway-0.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380,etcd-minio-gateway-1=http://etcd-minio-gateway-1.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380,etcd-minio-gateway-2=http://etcd-minio-gateway-2.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380"
-            - name: ETCD_CLUSTER_DOMAIN
-              value: "etcd-minio-gateway-headless.blair-drummond.svc.cluster.local"
           envFrom:
           ports:
             - name: client
@@ -176,11 +168,6 @@ spec:
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 5
-          lifecycle:
-            preStop:
-              exec:
-                command:
-                  - /opt/bitnami/scripts/etcd/prestop.sh
           resources:
             limits:
               cpu: "2"
