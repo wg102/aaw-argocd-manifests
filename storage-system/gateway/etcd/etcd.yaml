@@ -4,7 +4,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: etcd-minio-gateway-headless
-  namespace: default
+  namespace: blair-drummond
   labels:
     app.kubernetes.io/name: etcd-minio-gateway
     helm.sh/chart: etcd-6.3.3
@@ -31,7 +31,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: etcd-minio-gateway
-  namespace: default
+  namespace: blair-drummond
   labels:
     app.kubernetes.io/name: etcd-minio-gateway
     helm.sh/chart: etcd-6.3.3
@@ -57,7 +57,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: etcd-minio-gateway
-  namespace: default
+  namespace: blair-drummond
   labels:
     app.kubernetes.io/name: etcd-minio-gateway
     helm.sh/chart: etcd-6.3.3
@@ -92,7 +92,7 @@ spec:
                     app.kubernetes.io/name: etcd-minio-gateway
                     app.kubernetes.io/instance: etcd-minio-gateway
                 namespaces:
-                  - "default"
+                  - "blair-drummond"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -135,11 +135,11 @@ spec:
             - name: ALLOW_NONE_AUTHENTICATION
               value: "yes"
             - name: ETCD_ADVERTISE_CLIENT_URLS
-              value: "http://$(MY_POD_NAME).etcd-minio-gateway-headless.default.svc.cluster.local:2379"
+              value: "http://$(MY_POD_NAME).etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2379"
             - name: ETCD_LISTEN_CLIENT_URLS
               value: "http://0.0.0.0:2379"
             - name: ETCD_INITIAL_ADVERTISE_PEER_URLS
-              value: "http://$(MY_POD_NAME).etcd-minio-gateway-headless.default.svc.cluster.local:2380"
+              value: "http://$(MY_POD_NAME).etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380"
             - name: ETCD_LISTEN_PEER_URLS
               value: "http://0.0.0.0:2380"
             - name: ETCD_INITIAL_CLUSTER_TOKEN
@@ -147,9 +147,9 @@ spec:
             - name: ETCD_INITIAL_CLUSTER_STATE
               value: "new"
             - name: ETCD_INITIAL_CLUSTER
-              value: "etcd-minio-gateway-0=http://etcd-minio-gateway-0.etcd-minio-gateway-headless.default.svc.cluster.local:2380,etcd-minio-gateway-1=http://etcd-minio-gateway-1.etcd-minio-gateway-headless.default.svc.cluster.local:2380,etcd-minio-gateway-2=http://etcd-minio-gateway-2.etcd-minio-gateway-headless.default.svc.cluster.local:2380"
+              value: "etcd-minio-gateway-0=http://etcd-minio-gateway-0.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380,etcd-minio-gateway-1=http://etcd-minio-gateway-1.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380,etcd-minio-gateway-2=http://etcd-minio-gateway-2.etcd-minio-gateway-headless.blair-drummond.svc.cluster.local:2380"
             - name: ETCD_CLUSTER_DOMAIN
-              value: "etcd-minio-gateway-headless.default.svc.cluster.local"
+              value: "etcd-minio-gateway-headless.blair-drummond.svc.cluster.local"
           envFrom:
           ports:
             - name: client
