@@ -5,5 +5,5 @@ metadata:
 spec:
   host: etcd-minio-gateway-headless.kubeflow.svc.cluster.local
   trafficPolicy:
-    loadBalancer:
-      simple: LEAST_CONN
+    tls:
+      mode: ITSIO_MUTUAL

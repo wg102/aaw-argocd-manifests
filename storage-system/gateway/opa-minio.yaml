@@ -1,4 +1,14 @@
 ---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: minio-gateway-opa
+spec:
+  host: minio-opa.kubeflow.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ITSIO_MUTUAL
+---
 apiVersion: v1
 kind: Service
 metadata:
