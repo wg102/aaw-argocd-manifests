@@ -6,4 +6,4 @@ spec:
   host: minio-gateway.kubeflow.svc.cluster.local
   trafficPolicy:
     tls:
-      mode: ITSIO_MUTUAL
+      mode: ISTIO_MUTUAL

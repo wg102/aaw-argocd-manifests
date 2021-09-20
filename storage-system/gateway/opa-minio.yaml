@@ -7,7 +7,7 @@ spec:
   host: minio-opa.kubeflow.svc.cluster.local
   trafficPolicy:
     tls:
-      mode: ITSIO_MUTUAL
+      mode: ISTIO_MUTUAL
 ---
 apiVersion: v1
 kind: Service
