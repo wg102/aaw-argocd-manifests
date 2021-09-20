@@ -3,7 +3,7 @@ kind: DestinationRule
 metadata:
   name: etcd-minio-gateway
 spec:
-  host: etcd-minio-gateway-headless.blair-drummond.svc.cluster.local
+  host: etcd-minio-gateway-headless.kubeflow.svc.cluster.local
   trafficPolicy:
     loadBalancer:
       simple: LEAST_CONN

@@ -3,7 +3,7 @@ kind: DestinationRule
 metadata:
   name: minio-gateway
 spec:
-  host: minio-gateway.blair-drummond.svc.cluster.local
+  host: minio-gateway.kubeflow.svc.cluster.local
   trafficPolicy:
     loadBalancer:
       simple: LEAST_CONN

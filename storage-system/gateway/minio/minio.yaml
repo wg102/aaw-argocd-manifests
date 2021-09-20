@@ -4,7 +4,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: minio-gateway
-  namespace: blair-drummond
+  namespace: kubeflow
   labels:
     app.kubernetes.io/name: minio-gateway
     helm.sh/chart: minio-8.0.1
@@ -17,7 +17,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: minio-gateway
-  namespace: blair-drummond
+  namespace: kubeflow
   labels:
     app.kubernetes.io/name: minio-gateway
     helm.sh/chart: minio-8.0.1
@@ -43,7 +43,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minio-gateway
-  namespace: blair-drummond
+  namespace: kubeflow
   labels:
     app.kubernetes.io/name: minio-gateway
     helm.sh/chart: minio-8.0.1
@@ -76,7 +76,7 @@ spec:
                     app.kubernetes.io/name: minio-gateway
                     app.kubernetes.io/instance: minio-gateway
                 namespaces:
-                  - "blair-drummond"
+                  - "kubeflow"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:

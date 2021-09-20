@@ -6,7 +6,7 @@
 # spec:
 #   project: default
 #   destination:
-#     namespace: blair-drummond
+#     namespace: kubeflow
 #     server: https://kubernetes.default.svc
 #   source:
 #     repoURL: https://charts.bitnami.com/bitnami
