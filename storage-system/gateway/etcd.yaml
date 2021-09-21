@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   destination:
-    namespace: minio-gateway-namespace
+    namespace: minio-gateway-system
     server: https://kubernetes.default.svc
   source:
     repoURL: https://charts.bitnami.com/bitnami
@@ -17,7 +17,7 @@ spec:
       values: |
         # nameOverride: "minio-gateway"
         commonLabels:
-          app: minio-gateway
+          app: minio-gateway-etcd
           data.statcan.gc.ca/classification: unclassified
         auth:
           rbac:
@@ -50,7 +50,7 @@ spec:
         #           - key: app
         #             operator: In
         #             values:
-        #             - minio-gateway
+        #             - minio-gateway-etcd
         #         topologyKey: kubernetes.io/hostname
         #       weight: 100
         # tolerations:

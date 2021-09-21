@@ -4,7 +4,7 @@ kind: DestinationRule
 metadata:
   name: minio-gateway-opa
 spec:
-  host: minio-opa.kubeflow.svc.cluster.local
+  host: minio-opa.minio-gateway-system.svc.cluster.local
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
@@ -13,7 +13,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: minio-opa
-  namespace: kubeflow
+  namespace: minio-gateway-system
   labels:
     app.kubernetes.io/name: minio-opa
 spec:
@@ -30,7 +30,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: minio-opa
-  namespace: kubeflow
+  namespace: minio-gateway-system
   labels:
     app.kubernetes.io/name: minio-opa
 spec:
@@ -47,8 +47,7 @@ spec:
       containers:
         - name: opa
           securityContext: {}
-          # image: "openpolicyagent/opa:0.32.0"
-          image: "k8scc01covidacr.azurecr.io/opa:blair-0.32.0"
+          image: "openpolicyagent/opa:0.32.0"
           imagePullPolicy: Always
           args:
             - run
