@@ -20,15 +20,41 @@ spec:
     path: statcan-system
     targetRevision: dev
     directory:
-      recurse: true
-      jsonnet: {}
+      recurse: false
+      jsonnet: 
+        extVars:
+        - name: argocd_namespace
+          value: statcan-system
+        - name: namespace
+          value: statcan-system
+        - name: url
+          value: https://github.com/StatCan/aaw-argocd-manifests.git
+        - name: targetRevision
+          value: master
+        - name: folder
+          value: storage-system
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
 ```
 
-This deploys **just** the `statcan-system`. Create a few more of these to deploy the other systems. You can then load these into your favorite bootstrapping system (either another argocd instance or terraform).
+This deploys **just** the `statcan-system`. This will deploy a flat folder using jsonnet, and you can use the "Application of Applications" pattern to hierarchically group the applications. The recommended structure is:
+
+```yaml
+statcan-system/
+   - application-a.yaml
+   - application-b.yaml
+   - folder-x
+   - folder-y
+   - applications.jsonnet
+   - applications.libsonnet
+   - Makefile
+```
+
+Where the `Makefile` and `applications.jsonnet` file are symlinks to those found in the root of this repo. The applications here are deployed immediately, the `applications.jsonnet` file will create an `Application` for each folder. The libsonnet file is just the list of directories (you can generate it from the Makefile). The purpose of the `extVars` variables in the original Application is so that these subapplications have the variables they need to know their context.
+
+You can deploy this top-level application either manually, or with your favorite deployment system (e.g. terraform)
 
 ### How to Contribute
 
