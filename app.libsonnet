@@ -54,12 +54,12 @@ local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, val
                         },
                     },
                 },
-            },
-            syncPolicy: {
-                automated: {
-                    prune: true,
-                    selfHeal: true
+                syncPolicy: {
+                    automated: {
+                        prune: true,
+                        selfHeal: true
+                    }
                 }
-            }
+            },
         }
 }
