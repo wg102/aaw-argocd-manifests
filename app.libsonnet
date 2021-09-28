@@ -20,6 +20,14 @@ local vars = {
 # https://github.com/google/jsonnet/issues/865
 local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, value: v}, dict));
 
+# app = {
+#    name: str
+#    namespace: str    (optional)
+#    final: bool       (optional)
+# }
+#
+# If final, deploy to namespace, not argocd_namespace.
+
 {
     extvars: vars,
     app:
@@ -34,7 +42,7 @@ local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, val
             },
             spec: {
                 destination: {
-                    namespace: namespace,
+                    namespace: if std.objectHas(app, "final") && app.final then namespace else vars.argocd_namespace,
                     server: "https://kubernetes.default.svc"
                 },
                 project: "default",
