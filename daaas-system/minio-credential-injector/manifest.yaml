@@ -9,7 +9,7 @@ metadata:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: minio-instances-goofys
+  name: minio-instances-json
 data:
   instances.json: |
     {"name": "minio_standard", "classification": "unclassified", "serviceUrl": "http://minio.minio-standard-system:443"}
