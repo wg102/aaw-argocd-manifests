@@ -61,7 +61,7 @@ local values = |||
       metadata:
         name: minio-gateway-etcd
       spec:
-        host: %(namespace)s-etcd.%(namespace)s.svc.cluster.local
+        host: minio-gateway-etcd.%(namespace)s.svc.cluster.local
         trafficPolicy:
           tls:
             mode: ISTIO_MUTUAL
@@ -86,6 +86,7 @@ local values = |||
       chart: "etcd",
       targetRevision: "6.2.9",
       helm: {
+        releaseName: "minio-gateway-" + appName,
         values: values,
       }
     },

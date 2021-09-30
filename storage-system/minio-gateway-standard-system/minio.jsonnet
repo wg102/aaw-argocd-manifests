@@ -7,7 +7,7 @@ local values = |||
     ## MinIO(R) Gateway configuration
     nameOverride: "minio-gateway"
     commonLabels:
-      app: %(namespace)s-minio
+      app: minio-gateway
       data.statcan.gc.ca/classification: unclassified
     global:
       minio:
@@ -29,9 +29,9 @@ local values = |||
           storageAccountKeyExistingSecretKey: "storageAccountKey"
     extraEnv:
       - name: MINIO_ETCD_ENDPOINTS
-        value: http://%(namespace)s-etcd-headless:2379/
+        value: http://minio-gateway-etcd-headless:2379/
       - name: MINIO_IAM_OPA_URL
-        value: http://%(namespace)s-opa:8181/v1/data/httpapi/authz
+        value: http://minio-gateway-opa:8181/v1/data/httpapi/authz
     image:
       registry: k8scc01covidacr.azurecr.io
       repository: minio
@@ -82,7 +82,7 @@ local values = |||
       metadata:
         name: minio-gateway
       spec:
-        host: %(namespace)s-minio.%(namespace)s.svc.cluster.local
+        host: minio-gateway.%(namespace)s.svc.cluster.local
         trafficPolicy:
           tls:
             mode: ISTIO_MUTUAL
@@ -107,6 +107,7 @@ local values = |||
       chart: "minio",
       targetRevision: "7.2.0",
       helm: {
+        releaseName: "minio-gateway",
         values: values,
       }
     },
