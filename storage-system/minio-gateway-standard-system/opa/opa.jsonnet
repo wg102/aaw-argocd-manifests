@@ -6,7 +6,7 @@ local image = "openpolicyagent/opa:0.32.0";
     apiVersion: "v1",
     kind: "ConfigMap",
     metadata: {
-      name: "minio-opa"
+      name: "minio-gateway-opa"
     },
     data: {
       "policy.rego": importstr 'policy.rego'
@@ -19,7 +19,7 @@ local image = "openpolicyagent/opa:0.32.0";
       name: "minio-gateway-opa"
     },
     spec: {
-      host: "minio-opa.%s.svc.cluster.local" % namespace,
+      host: "minio-gateway-opa.%s.svc.cluster.local" % namespace,
       trafficPolicy: {
         tls: {
           mode: "ISTIO_MUTUAL"
@@ -31,10 +31,10 @@ local image = "openpolicyagent/opa:0.32.0";
     apiVersion: "v1",
     kind: "Service",
     metadata: {
-      name: "minio-opa",
+      name: "minio-gateway-opa",
       namespace: namespace,
       labels: {
-        "app.kubernetes.io/name": "minio-opa"
+        "app.kubernetes.io/name": "minio-gateway-opa"
       }
     },
     spec: {
@@ -48,7 +48,7 @@ local image = "openpolicyagent/opa:0.32.0";
         }
       ],
       selector: {
-        "app.kubernetes.io/name": "minio-opa"
+        "app.kubernetes.io/name": "minio-gateway-opa"
       }
     }
   },
@@ -56,23 +56,23 @@ local image = "openpolicyagent/opa:0.32.0";
     apiVersion: "apps/v1",
     kind: "Deployment",
     metadata: {
-      name: "minio-opa",
+      name: "minio-gateway-opa",
       namespace: namespace,
       labels: {
-        "app.kubernetes.io/name": "minio-opa"
+        "app.kubernetes.io/name": "minio-gateway-opa"
       }
     },
     spec: {
       replicas: 3,
       selector: {
         matchLabels: {
-          "app.kubernetes.io/name": "minio-opa"
+          "app.kubernetes.io/name": "minio-gateway-opa"
         }
       },
       template: {
         metadata: {
           labels: {
-            "app.kubernetes.io/name": "minio-opa"
+            "app.kubernetes.io/name": "minio-gateway-opa"
           }
         },
         spec: {
@@ -155,7 +155,7 @@ local image = "openpolicyagent/opa:0.32.0";
             {
               name: "policies",
               configMap: {
-                name: "minio-opa",
+                name: "minio-gateway-opa",
                 defaultMode: 420
               }
             }
