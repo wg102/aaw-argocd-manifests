@@ -7,7 +7,7 @@ spec:
   gateways:
   - istio-system/authenticated
   hosts:
-  - kubecost.aaw-dev.cloud.statcan.ca
+  - kubecost.aaw.cloud.statcan.ca
   http:
   - match:
     - uri:
@@ -27,7 +27,7 @@ spec:
   gateways:
   - istio-system/authenticated
   hosts:
-  - prometheus.aaw-dev.cloud.statcan.ca
+  - prometheus.aaw.cloud.statcan.ca
   http:
   - match:
     - uri:
@@ -47,7 +47,7 @@ spec:
   gateways:
   - istio-system/authenticated
   hosts:
-  - alertmanager.aaw-dev.cloud.statcan.ca
+  - alertmanager.aaw.cloud.statcan.ca
   http:
   - match:
     - uri:

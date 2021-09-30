@@ -40,7 +40,7 @@ spec:
           - name: MINIO_INSTANCES
             value: minio_premium,minio_standard,minio_protected_b
           - name: KUBERNETES_AUTH_PATH
-            value: auth/aaw-dev-cc-00
+            value: auth/aaw-prod-cc-00
           - name: OIDC_AUTH_ACCESSOR
             value: auth_oidc_6fdc919f
 ---
@@ -150,7 +150,7 @@ data:
           "role" = "profile-configurator"
         }
         "type" = "kubernetes"
-        "mount_path" = "auth/aaw-dev-cc-00"
+        "mount_path" = "auth/aaw-prod-cc-00"
       }
     }
 
