@@ -33,6 +33,7 @@ local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, val
     app:
     function (app)
         local namespace = if std.objectHas(app, "namespace") then app.namespace else vars.argocd_namespace;
+        local folder = if std.objectHas(app, "folder") then vars.folder + "/" + app.folder else vars.folder + "/" + app.name;
         {
             apiVersion: "argoproj.io/v1alpha1",
             kind: "Application",
@@ -47,7 +48,7 @@ local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, val
                 },
                 project: "default",
                 source: {
-                    path: vars.folder + "/" + app.name,
+                    path: folder,
                     repoURL: vars.url,
                     targetRevision: vars.targetRevision,
                     directory: {
@@ -55,7 +56,7 @@ local to_kvs(dict) = std.objectValues(std.mapWithKey(function(k,v) {name: k, val
                         jsonnet: {
                             extVars: to_kvs(
                                 vars + {
-                                    folder: vars.folder + '/' + app.name,
+                                    folder: folder,
                                     namespace: namespace
                                 },
                             )
