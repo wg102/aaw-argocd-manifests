@@ -29,9 +29,9 @@ local values = |||
           storageAccountKeyExistingSecretKey: "storageAccountKey"
     extraEnv:
       - name: MINIO_ETCD_ENDPOINTS
-        value: http://minio-gateway-etcd-headless:2379/
+        value: http://%(namespace)s-etcd-headless:2379/
       - name: MINIO_IAM_OPA_URL
-        value: http://minio-gateway-opa:8181/v1/data/httpapi/authz
+        value: http://%(namespace)s-opa:8181/v1/data/httpapi/authz
     image:
       registry: k8scc01covidacr.azurecr.io
       repository: minio
@@ -82,7 +82,7 @@ local values = |||
       metadata:
         name: minio-gateway
       spec:
-        host: minio-gateway.%(namespace)s.svc.cluster.local
+        host: %(namespace)-minio.%(namespace)s.svc.cluster.local
         trafficPolicy:
           tls:
             mode: ISTIO_MUTUAL
