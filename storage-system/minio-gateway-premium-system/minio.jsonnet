@@ -82,7 +82,7 @@ local values = |||
       metadata:
         name: minio-gateway
       spec:
-        host: %(namespace)-minio.%(namespace)s.svc.cluster.local
+        host: %(namespace)s-minio.%(namespace)s.svc.cluster.local
         trafficPolicy:
           tls:
             mode: ISTIO_MUTUAL
