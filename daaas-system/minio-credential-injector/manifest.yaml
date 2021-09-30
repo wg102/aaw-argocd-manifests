@@ -6,6 +6,16 @@ metadata:
   labels:
     apps.kubernetes.io/name: minio-credential-injector
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-instances-goofys
+data:
+  instances.json: |
+    {"name": "minio_standard", "classification": "unclassified", "serviceUrl": "http://minio.minio-standard-system:443"}
+    {"name": "minio_premium", "classification": "unclassified", "serviceUrl": "http://minio.minio-premium-system:443"}
+    {"name": "minio_protected_b", "classification": "protected-b", "serviceUrl": "http://minio.minio-protected-b-system:443"}
+---
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
@@ -61,7 +71,7 @@ spec:
         - name: k8scc01covidacr-registry-connection
       containers:
       - name: minio-credential-injector
-        image: k8scc01covidacr.azurecr.io/minio-credential-injector:7b8709e2899fe83faf7d38f7d3504fdf20233163
+        image: k8scc01covidacr.azurecr.io/minio-credential-injector:2bb5e5eb51159a61d05ed821c21b8c21c48a4b4d
         resources:
           limits:
             memory: "128Mi"
@@ -73,10 +83,17 @@ spec:
         - name: certs
           mountPath: /certs
           readOnly: true
+        - name: instances
+          mountPath: /instances.json
+          subPath: instances.json
+          readOnly: true
       volumes:
       - name: certs
         secret:
           secretName: minio-credential-injector-tls
+      - name: instances
+        configMap:
+          name: minio-instances-json
 ---
 apiVersion: v1
 kind: Service
