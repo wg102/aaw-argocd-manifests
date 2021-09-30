@@ -38,11 +38,11 @@ spec:
           - name: VAULT_AGENT_ADDR
             value: http://127.0.0.1:8100
           - name: MINIO_INSTANCES
-            value: minio_premium,minio_standard,minio_protected_b
+            value: minio_standard_tenant_1,minio_premium_tenant_1
           - name: KUBERNETES_AUTH_PATH
             value: auth/aaw-prod-cc-00
           - name: OIDC_AUTH_ACCESSOR
-            value: auth_oidc_6fdc919f
+            value: auth_oidc_8a2fe3d8
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
