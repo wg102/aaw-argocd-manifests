@@ -1,4 +1,4 @@
-local appName = std.split(std.thisFile, ".")[0];
+local appName = "minio";
 
 local app = import '../../app.libsonnet';
 local vars = app.extvars;

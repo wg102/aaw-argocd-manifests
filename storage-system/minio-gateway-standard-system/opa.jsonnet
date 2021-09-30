@@ -1,4 +1,4 @@
-local appName = std.split(std.thisFile, ".")[0];
+local appName = "opa";
 
 local app = import '../../app.libsonnet';
 
