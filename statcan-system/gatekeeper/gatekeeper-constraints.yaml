@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: 'https://github.com/StatCan/aaw-gatekeeper-constraints.git'
     path: .
-    targetRevision: master
+    targetRevision: main
     directory:
       recurse: true
       jsonnet: {}
