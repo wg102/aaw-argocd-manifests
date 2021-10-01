@@ -6,6 +6,16 @@ metadata:
   labels:
     apps.kubernetes.io/name: goofys-injector
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minio-instances-goofys
+  namespace: daaas-system
+data:
+  instances.json: |
+    {"name": "minio_standard", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-standard.aaw-dev.cloud.statcan.ca:443"}
+    {"name": "minio_premium", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-premium.aaw-dev.cloud.statcan.ca:443"}
+---
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
@@ -58,7 +68,7 @@ spec:
       serviceAccountName: goofys-injector
       containers:
       - name: goofys-injector
-        image: k8scc01covidacr.azurecr.io/goofys-injector:29e3c8bc74b0fd8bb35949f45d253e848fac985c
+        image: k8scc01covidacr.azurecr.io/goofys-injector:b5c187aa2582d66f032357c2393ac1dde424307c
         env:
         - name: VAULT_AGENT_ADDR
           value: http://127.0.0.1:8100
@@ -73,10 +83,17 @@ spec:
         - name: certs
           mountPath: /certs
           readOnly: true
+        - name: instances
+          mountPath: /instances.json
+          subPath: instances.json
+          readOnly: true
       volumes:
       - name: certs
         secret:
           secretName: goofys-injector-tls
+      - name: instances
+        configMap:
+          name: minio-instances-goofys
 ---
 apiVersion: v1
 kind: Service
