@@ -11,13 +11,13 @@ spec:
   source:
     repoURL: 'https://statcan.github.io/charts'
     chart: profiles-controller
-    targetRevision: 0.1.2
+    targetRevision: 0.1.4
     helm:
       releaseName: profiles-controller
       values: |
         image:
           repository: k8scc01covidacr.azurecr.io/profiles-controller
-          tag: 6974753c17b026991b99713b31d2a29333d3d6fe
+          tag: f6279cb3ab065e1a5fe341f05f4cbfca3e333d21
         components:
           rbac:
             supportGroups:
