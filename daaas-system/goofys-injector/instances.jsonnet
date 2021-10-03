@@ -1,5 +1,5 @@
 # Only have dev and prod at the moment
-# assert std.member(["aaw-dev-cc-00", "aaw-prod-cc-00", "master"], std.extVar('targetRevision'));
+assert std.member(["aaw-dev-cc-00", "aaw-prod-cc-00", "master"], std.extVar('targetRevision'));
 
 local instances = if std.extVar('targetRevision') == "aaw-prod-cc-00" then 
 {
@@ -11,10 +11,9 @@ local instances = if std.extVar('targetRevision') == "aaw-prod-cc-00" then
 else
 {
     "instances.json": |||
-    %s
     {"name": "minio_standard", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-standard.aaw-dev.cloud.statcan.ca:443"}
     {"name": "minio_premium", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-premium.aaw-dev.cloud.statcan.ca:443"}
-||| % std.extVar('targetRevision')
+|||
 };
 
 
@@ -22,7 +21,7 @@ else
   "apiVersion": "v1",
   "kind": "ConfigMap",
   "metadata": {
-    "name": "bleep-bloop-instances",
+    "name": "minio-instances-goofys",
     "namespace": "daaas-system"
   },
   "data": instances
