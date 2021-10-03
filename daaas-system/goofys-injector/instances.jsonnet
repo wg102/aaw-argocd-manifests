@@ -12,7 +12,7 @@ else
 {
     "instances.json": |||
     {"name": "minio_standard", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-standard.aaw-dev.cloud.statcan.ca:443"}
-    {"name": "minio_premium", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-premium.aaw-dev.cloud.statcan.ca:443"}
+    {"name": "minio_premium", "short": "premium", "classification": "unclassified", "externalUrl": "https://minio-premium.aaw-dev.cloud.statcan.ca:443"}
 |||
 };
 
