@@ -6,16 +6,6 @@ metadata:
   labels:
     apps.kubernetes.io/name: goofys-injector
 ---
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: minio-instances-goofys
-  namespace: daaas-system
-data:
-  instances.json: |
-    {"name": "minio_standard_tenant_1", "short": "standard", "classification": "unclassified", "externalUrl": "https://minio-standard-tenant-1.covid.cloud.statcan.ca:443"}
-    {"name": "minio_premium_tenant_1", "short": "premium", "classification": "unclassified", "externalUrl": "https://minio-premium-tenant-1.covid.cloud.statcan.ca:443"}
----
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
