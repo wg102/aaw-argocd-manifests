@@ -1,4 +1,4 @@
-local appName = std.split(std.thisFile, ".")[0];
+local appName = "etcd";
 
 local app = import '../../app.libsonnet';
 local vars = app.extvars;
@@ -86,6 +86,7 @@ local values = |||
       chart: "etcd",
       targetRevision: "6.2.9",
       helm: {
+        releaseName: "minio-gateway-" + appName,
         values: values,
       }
     },

@@ -1,5 +1,5 @@
-local appName = std.split(std.thisFile, ".")[0];
-
 local app = import '../../app.libsonnet';
 
-app.app({name: appName, namespace: app.extvars.namespace, final: true})
+local appName = app.extvars.namespace + "-opa";
+
+app.app({name: appName, namespace: app.extvars.namespace, folder: "opa", final: true})

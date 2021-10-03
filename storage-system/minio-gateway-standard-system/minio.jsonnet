@@ -1,4 +1,4 @@
-local appName = std.split(std.thisFile, ".")[0];
+local appName = "minio";
 
 local app = import '../../app.libsonnet';
 local vars = app.extvars;
@@ -7,7 +7,7 @@ local values = |||
     ## MinIO(R) Gateway configuration
     nameOverride: "minio-gateway"
     commonLabels:
-      app: %(namespace)s-minio
+      app: minio-gateway
       data.statcan.gc.ca/classification: unclassified
     global:
       minio:
@@ -107,6 +107,7 @@ local values = |||
       chart: "minio",
       targetRevision: "7.2.0",
       helm: {
+        releaseName: "minio-gateway",
         values: values,
       }
     },
