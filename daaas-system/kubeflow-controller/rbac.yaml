@@ -4,46 +4,6 @@ metadata:
   name: profile-configurator
   namespace: daaas-system
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: profile-configurator
-  namespace: daaas-system
-  labels:
-    apps.kubernetes.io/name: profile-configurator
-spec:
-  selector:
-    matchLabels:
-      apps.kubernetes.io/name: profile-configurator
-  template:
-    metadata:
-      labels:
-        apps.kubernetes.io/name: profile-configurator
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-configmap: "profile-configurator-vault-agent-config"
-        vault.hashicorp.com/agent-pre-populate: "false"
-    spec:
-      serviceAccountName: profile-configurator
-      imagePullSecrets:
-        - name: k8scc01covidacr-registry-connection
-      containers:
-      - name: profile-configurator
-        image: k8scc01covidacr.azurecr.io/kubeflow-controller:fd3a92c63b1363f946d4b39a37258c4aa3e30fea
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        env:
-          - name: VAULT_AGENT_ADDR
-            value: http://127.0.0.1:8100
-          - name: MINIO_INSTANCES
-            value: minio_standard_tenant_1,minio_premium_tenant_1
-          - name: KUBERNETES_AUTH_PATH
-            value: auth/aaw-prod-cc-00
-          - name: OIDC_AUTH_ACCESSOR
-            value: auth_oidc_8a2fe3d8
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -136,39 +96,6 @@ roleRef:
   kind: ClusterRole
   name: profile-configurator
   apiGroup: rbac.authorization.k8s.io
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: profile-configurator-vault-agent-config
-  namespace: daaas-system
-data:
-  config.hcl: |
-    "auto_auth" = {
-      "method" = {
-        "config" = {
-          "role" = "profile-configurator"
-        }
-        "type" = "kubernetes"
-        "mount_path" = "auth/aaw-prod-cc-00"
-      }
-    }
-
-    "exit_after_auth" = false
-    "pid_file" = "/home/vault/.pid"
-
-    cache {
-      "use_auto_auth_token" = "force"
-    }
-
-    listener "tcp" {
-      address = "127.0.0.1:8100"
-      "tls_disable" = true
-    }
-
-    "vault" = {
-      "address" = "http://vault.vault-system:8200"
-    }
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
