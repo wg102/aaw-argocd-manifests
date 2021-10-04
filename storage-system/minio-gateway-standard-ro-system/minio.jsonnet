@@ -44,11 +44,11 @@ local values = |||
       hostname: %(namespace)s.%(domain)s
     resources:
       limits:
-        cpu: "2"
-        memory: 8Gi
+        cpu: "1"
+        memory: 4Gi
       requests:
-        cpu: "2"
-        memory: 8Gi
+        cpu: "1"
+        memory: 4Gi
     # nodeSelector:
     #   agentpool: storage
     # affinity:
