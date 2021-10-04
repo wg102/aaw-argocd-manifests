@@ -2,18 +2,20 @@ local image = "k8scc01covidacr.azurecr.io/kubeflow-controller:fd3a92c63b1363f946
 
 assert std.member(["aaw-dev-cc-00", "aaw-prod-cc-00", "master"], std.extVar('targetRevision'));
 
-local vault_path = if std.extVar('targetRevision') == "aaw-prod-cc-00" then
-    "auth/" + std.extVar('targetRevision')
-  else
-    "auth/aaw-dev-cc-00"
-  ;
 
-local oidc_accessor = if std.extVar('targetRevision') == "aaw-prod-cc-00" then
-    "auth_oidc_8a2fe3d8"
-  else
-    "auth_oidc_6fdc919f"
-  ;
-
+local vars = if std.extVar('targetRevision') == "aaw-prod-cc-00" then
+      {
+         vault_path: "auth/" + std.extVar('targetRevision'),
+         oidc_accessor: "auth_oidc_8a2fe3d8",
+         minio_instances: "minio_standard_tenant_1,minio_premium_tenant_1"
+      }
+    else
+      {
+         vault_path: "auth/aaw-dev-cc-00",
+         oidc_accessor: "auth_oidc_6fdc919f",
+         minio_instances: "minio_premium,minio_standard,minio_protected_b"
+      }
+    ;
 
 {
   "apiVersion": "apps/v1",
@@ -66,15 +68,15 @@ local oidc_accessor = if std.extVar('targetRevision') == "aaw-prod-cc-00" then
               },
               {
                 "name": "MINIO_INSTANCES",
-                "value": "minio_standard_tenant_1,minio_premium_tenant_1"
+                "value": vars.minio_instances
               },
               {
                 "name": "KUBERNETES_AUTH_PATH",
-                "value": vault_path
+                "value": vars.vault_path
               },
               {
                 "name": "OIDC_AUTH_ACCESSOR",
-                "value": oidc_accessor
+                "value": vars.oidc_accessor
               }
             ]
           }
