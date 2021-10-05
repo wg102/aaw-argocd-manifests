@@ -17,7 +17,7 @@ spec:
       values: |
         image:
           repository: k8scc01covidacr.azurecr.io/profiles-controller
-          tag: f6279cb3ab065e1a5fe341f05f4cbfca3e333d21
+          tag: test-pipelines
         components:
           rbac:
             supportGroups:
