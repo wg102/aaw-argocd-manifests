@@ -17,7 +17,7 @@ spec:
       values: |
         image:
           repository: k8scc01covidacr.azurecr.io/profiles-controller
-          tag: ea5af3b184ebf15f6716639a219a3a5bae22a41d
+          tag: fix-minio
         components:
           rbac:
             supportGroups:
