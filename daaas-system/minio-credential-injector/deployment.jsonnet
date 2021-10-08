@@ -1,3 +1,5 @@
+local image = "k8scc01covidacr.azurecr.io/minio-credential-injector:fix-pipelines-vault-four";
+
 # Only have dev and prod at the moment
 assert std.member(["aaw-dev-cc-00", "aaw-prod-cc-00", "master"], std.extVar('targetRevision'));
 
@@ -43,7 +45,7 @@ else
         "containers": [
           {
             "name": "minio-credential-injector",
-            "image": "k8scc01covidacr.azurecr.io/minio-credential-injector:fix-pipelines-vault-three",
+            "image": image,
             "env": [
               {
                 "name": "VAULT_ADDR_HTTPS",
