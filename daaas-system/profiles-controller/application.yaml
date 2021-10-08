@@ -17,7 +17,7 @@ spec:
       values: |
         image:
           repository: k8scc01covidacr.azurecr.io/profiles-controller
-          tag: fix-minio-three
+          tag: c6d983c25aa9207797ec095b213ce1bce7dd15e6
         components:
           rbac:
             supportGroups:
