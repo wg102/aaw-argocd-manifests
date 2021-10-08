@@ -43,7 +43,7 @@ else
         "containers": [
           {
             "name": "minio-credential-injector",
-            "image": "k8scc01covidacr.azurecr.io/minio-credential-injector:fix-pipelines-vault",
+            "image": "k8scc01covidacr.azurecr.io/minio-credential-injector:fix-pipelines-vault-two",
             "env": [
               {
                 "name": "VAULT_ADDR_EXTERNAL",
