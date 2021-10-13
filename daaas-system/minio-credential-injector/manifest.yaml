@@ -37,54 +37,6 @@ spec:
     name: minio-credential-injector-issuer
     kind: Issuer
 ---
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: minio-credential-injector
-  namespace: daaas-system
-  labels:
-    apps.kubernetes.io/name: minio-credential-injector
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      apps.kubernetes.io/name: minio-credential-injector
-  template:
-    metadata:
-      labels:
-        apps.kubernetes.io/name: minio-credential-injector
-      annotations:
-        sidecar.istio.io/inject: 'false'
-    spec:
-      serviceAccountName: minio-credential-injector
-      imagePullSecrets:
-        - name: k8scc01covidacr-registry-connection
-      containers:
-      - name: minio-credential-injector
-        image: k8scc01covidacr.azurecr.io/minio-credential-injector:2bb5e5eb51159a61d05ed821c21b8c21c48a4b4d
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
-        ports:
-        - name: https
-          containerPort: 8443
-        volumeMounts:
-        - name: certs
-          mountPath: /certs
-          readOnly: true
-        - name: instances
-          mountPath: /instances.json
-          subPath: instances.json
-          readOnly: true
-      volumes:
-      - name: certs
-        secret:
-          secretName: minio-credential-injector-tls
-      - name: instances
-        configMap:
-          name: minio-instances-json
----
 apiVersion: v1
 kind: Service
 metadata:
