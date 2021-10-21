@@ -18,7 +18,7 @@ local values = |||
       registry: k8scc01covidacr.azurecr.io
       repository: etcd
       tag: 3.5.0-debian-10-r64
-    replicaCount: 1
+    replicaCount: 3
     persistence:
       enabled: false
     resources:
