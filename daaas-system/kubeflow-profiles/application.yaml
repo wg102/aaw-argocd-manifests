@@ -8,9 +8,9 @@ spec:
     namespace: kubeflow
     server: https://kubernetes.default.svc
   project: default
-  source: https://github.com/StatCan/aaw-kubeflow-profiles.git
+  source: https://github.com/blairdrummond/fake-kubeflow-profiles.git
     repoURL: 
-    targetRevision: main
+    targetRevision: master
     path: .
   syncPolicy:
     automated:
