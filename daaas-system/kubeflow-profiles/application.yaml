@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kubeflow-profiles
+  name: kubeflow-user-profiles
   namespace: daaas-system
 spec:
   destination:
