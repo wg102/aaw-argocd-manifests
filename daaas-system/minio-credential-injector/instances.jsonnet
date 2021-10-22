@@ -14,6 +14,7 @@ else
     {"name": "minio_standard", "classification": "unclassified", "serviceUrl": "http://minio.minio-standard-system:443"}
     {"name": "minio_premium", "classification": "unclassified", "serviceUrl": "http://minio.minio-premium-system:443"}
     {"name": "minio_protected_b", "classification": "protected-b", "serviceUrl": "http://minio.minio-protected-b-system:443"}
+    {"name": "fdi_gateway", "classification": "unclassified", "serviceUrl": "http://minio-gateway.fdi-gateway-system:9000"}
     {"name": "minio_gateway_standard", "classification": "unclassified", "serviceUrl": "http://minio-gateway.minio-gateway-standard-system:9000"}
     {"name": "minio_gateway_premium", "classification": "unclassified", "serviceUrl": "http://minio-gateway.minio-gateway-premium-system:9000"}
     {"name": "minio_gateway_standard_ro", "classification": "protected-b", "serviceUrl": "http://minio-gateway.minio-gateway-standard-ro-system:9000"}
