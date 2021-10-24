@@ -29,7 +29,7 @@ local values = |||
           storageAccountKeyExistingSecretKey: "storageAccountKey"
     extraEnv:
       - name: MINIO_ETCD_ENDPOINTS
-        value: http://minio-gateway-etcd-headless:2379/
+        value: http://minio-gateway-etcd:2379/
       - name: MINIO_IAM_OPA_URL
         value: http://minio-gateway-opa:8181/v1/data/httpapi/authz
     extraVolumes:
