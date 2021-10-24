@@ -4,6 +4,8 @@ import input
 # For environment variables
 runtime := opa.runtime()
 
+trace(sprintf("Vault: %s", [input.action]))
+
 default allow = false
 
 rl_permissions := {
