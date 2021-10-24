@@ -52,7 +52,6 @@ local values = |||
         echo 'while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done' >> /custom/minio.sh
         echo 'echo "Sidecar is ready."' >> /custom/minio.sh
         echo 'echo exec minio $@' >> /custom/minio.sh
-        echo 'sleep 300' >> /custom/minio.sh
         echo 'exec minio $@' >> /custom/minio.sh
         chmod 555 /custom/minio.sh
         chown nobody:nobody /custom/minio.sh
