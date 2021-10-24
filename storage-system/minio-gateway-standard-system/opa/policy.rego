@@ -4,8 +4,6 @@ import input
 # For environment variables
 runtime := opa.runtime()
 
-trace(sprintf("Vault: %s", [input.action]))
-
 default allow = false
 
 rl_permissions := {
@@ -81,6 +79,7 @@ allow {
 
 # Needed by Vault to create profiles
 allow {
+  trace(sprintf("Account: %s, Action: %s", [input.account, input.action]))
   input.account == runtime.env.MINIO_ADMIN
   permissions := rl_permissions["vault"]
   p := permissions[_]
