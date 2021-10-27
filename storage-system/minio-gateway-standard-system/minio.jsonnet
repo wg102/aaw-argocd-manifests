@@ -15,6 +15,11 @@ local values = |||
     gateway:
       enabled: true
       type: azure
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: "25%%"
+          maxUnavailable: "25%%"
       # autoscaling:
       #   enabled: true
       #   minReplicas: "2"
@@ -48,7 +53,6 @@ local values = |||
       - |
         echo '#!/bin/sh' > /custom/minio.sh
         echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
-        echo 'sleep 10' >> /custom/minio.sh
         echo 'while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done' >> /custom/minio.sh
         echo 'echo "Sidecar is ready."' >> /custom/minio.sh
         echo 'echo exec minio $@' >> /custom/minio.sh
