@@ -30,6 +30,7 @@ rl_permissions := {
               {"action": "admin:GetPolicy"},
               {"action": "admin:AttachUserOrGroupPolicy"},
               {"action": "admin:ListUserPolicies"},
+              {"action": "admin:CreateUser"},
               {"action": "admin:EnableUser"},
               {"action": "admin:DisableUser"},
               {"action": "s3:PutObject"},
@@ -79,10 +80,8 @@ allow {
 
 # Needed by Vault to create profiles
 allow {
-  trace(sprintf("Account: %s, Action: %s", [input.account, input.action]))
   input.account == runtime.env.MINIO_ADMIN
   permissions := rl_permissions["vault"]
   p := permissions[_]
   p == {"action": input.action}
 }
-

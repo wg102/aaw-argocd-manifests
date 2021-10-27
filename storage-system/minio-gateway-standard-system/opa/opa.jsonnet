@@ -86,6 +86,7 @@ local image = "openpolicyagent/opa:0.32.0";
               args: [
                 "run",
                 "--ignore=.*",
+                "--log-level=debug",
                 "--server",
                 "/policies"
               ],
