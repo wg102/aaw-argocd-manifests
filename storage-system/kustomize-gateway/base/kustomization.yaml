@@ -11,3 +11,21 @@ resources:
   - minio/
   - etcd/
   - opa/
+
+
+## using a valueFrom instead of value
+patches:
+- target:
+    kind: (StatefulSet|Deployment)
+    name: minio-gateway.*
+  patch: |-
+    - op: add
+      path: /spec/template/spec/tolerations
+      value: []
+- target:
+    kind: (StatefulSet|Deployment)
+    name: minio-gateway.*
+  patch: |-
+    - op: add
+      path: /spec/template/spec/nodeSelector
+      value: {}
