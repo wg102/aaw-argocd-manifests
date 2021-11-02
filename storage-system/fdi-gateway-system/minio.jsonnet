@@ -15,6 +15,11 @@ local values = |||
     gateway:
       enabled: true
       type: azure
+      updateStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: "25%%"
+          maxUnavailable: "25%%"
       # autoscaling:
       #   enabled: true
       #   minReplicas: "2"
@@ -29,9 +34,35 @@ local values = |||
           storageAccountKeyExistingSecretKey: "storageAccountKey"
     extraEnv:
       - name: MINIO_ETCD_ENDPOINTS
-        value: http://minio-gateway-etcd-headless:2379/
+        value: http://minio-gateway-etcd:2379/
       - name: MINIO_IAM_OPA_URL
         value: http://minio-gateway-opa:8181/v1/data/httpapi/authz
+    extraVolumes:
+    - name: minio-sh
+      emptyDir: {}
+    extraVolumeMounts:
+    - mountPath: /minio.sh
+      subPath: minio.sh
+      name: minio-sh
+    initContainers:
+    - name: wait-for-sidecar
+      image: busybox
+      command:
+      - sh
+      - -c
+      - |
+        echo '#!/bin/sh' > /custom/minio.sh
+        echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
+        echo 'while ! curl -s -f http://127.0.0.1:15020/healthz/ready; do sleep 1; done' >> /custom/minio.sh
+        echo 'echo "Sidecar is ready."' >> /custom/minio.sh
+        echo 'echo exec minio $@' >> /custom/minio.sh
+        echo 'exec minio $@' >> /custom/minio.sh
+        chmod 555 /custom/minio.sh
+        chown nobody:nobody /custom/minio.sh
+        echo "Wrote the minio.sh script to shared volume."
+      volumeMounts:
+      - mountPath: /custom
+        name: minio-sh
     image:
       registry: k8scc01covidacr.azurecr.io
       repository: minio
@@ -39,6 +70,8 @@ local values = |||
       # registry: docker.io
       # repository: bitnami/minio
       # tag: 2021.5.27-debian-10-r8
+    # Wait for the istio proxy
+    command: ["sh", "/minio.sh"]
     ingress:
       enabled: false
       hostname: %(namespace)s.%(domain)s

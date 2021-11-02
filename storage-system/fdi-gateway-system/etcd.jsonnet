@@ -20,7 +20,7 @@ local values = |||
       tag: 3.5.0-debian-10-r64
     replicaCount: 3
     persistence:
-      enabled: true
+      enabled: false
     resources:
       limits:
         cpu: "1"
