@@ -77,6 +77,7 @@ local image = "openpolicyagent/opa:0.32.0";
                 "run",
                 "--ignore=.*",
                 "--server",
+                "--log-level=debug",
                 "--set=services.default.url=https://$(BUNDLE_STORAGE_ACCOUNT).blob.core.windows.net",
                 "--set=services.default.headers.x-ms-version=$(AZURE_STORAGE_SERVICE_VERSION)",
                 "--set=services.default.credentials.oauth2.token_url=https://login.microsoftonline.com/$(TENANT_ID)/oauth2/v2.0/token",
