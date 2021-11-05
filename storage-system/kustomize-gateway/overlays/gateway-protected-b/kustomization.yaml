@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# namespace: minio-gateway-standard-system
+
+resources:
+  - ../../base/
+
+commonLabels:
+  someName: someValue
+  owner: alice
+  app: bingo
+
+#patchesStrategicMerge:
+#- cluster-role.yaml
+#- deployment.yaml
+#- deployment_patch.yaml
+
+configMapGenerator:
+- files:
+  - policy.rego
+  name: minio-gateway-opa
+
+components:
+  - ../../components/protected-b
