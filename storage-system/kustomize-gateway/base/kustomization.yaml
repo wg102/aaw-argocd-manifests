@@ -3,6 +3,7 @@ kind: Kustomization
 
 commonLabels:
   instance: minio-gateway
+  node.statcan.gc.ca/purpose: system
 
 generatorOptions:
   disableNameSuffixHash: true

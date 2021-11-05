@@ -61,11 +61,11 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: "1"
-              memory: 1Gi
+              cpu: "2"
+              memory: 2Gi
             requests:
-              cpu: 100m
-              memory: 200Mi
+              cpu: 500m
+              memory: 500Mi
           securityContext: {}
           volumeMounts:
             - mountPath: /policies
