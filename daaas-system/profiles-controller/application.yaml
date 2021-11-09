@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: 'https://statcan.github.io/charts'
     chart: profiles-controller
-    targetRevision: 0.1.7
+    targetRevision: 0.1.8
     helm:
       releaseName: profiles-controller
       values: |
