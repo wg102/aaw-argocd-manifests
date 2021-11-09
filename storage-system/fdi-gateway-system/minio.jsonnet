@@ -72,6 +72,8 @@ local values = |||
       # tag: 2021.5.27-debian-10-r8
     # Wait for the istio proxy
     command: ["sh", "/minio.sh"]
+    podLabels:
+      aadpodidbinding: fdi-sa-identity
     ingress:
       enabled: false
       hostname: %(namespace)s.%(domain)s
