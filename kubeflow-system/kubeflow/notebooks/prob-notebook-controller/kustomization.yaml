@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- deployment.yaml
+- service-account.yaml
+- cluster-role.yaml
+- cluster-role-binding.yaml
+
+images:
+- name: k8scc01covidacr.azurecr.io/prob-notebook-controller
+  newName: k8scc01covidacr.azurecr.io/prob-notebook-controller
+  newTag: "dc1cd29e818c413b24385b406f4c22a0bdbf009a"
+  # digest: sha256:0b80a09e878f9dcdd530da7948155d532c61f7ad9ce854e7fa26440ade720d8c
