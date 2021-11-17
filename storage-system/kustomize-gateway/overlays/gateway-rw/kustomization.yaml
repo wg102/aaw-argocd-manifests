@@ -5,10 +5,10 @@ kind: Kustomization
 resources:
   - ../../base/
 
-commonLabels:
-  someName: someValue
-  owner: alice
-  app: bingo
+#commonLabels:
+#  someName: someValue
+#  owner: alice
+#  app: bingo
 
 #patchesStrategicMerge:
 #- cluster-role.yaml
