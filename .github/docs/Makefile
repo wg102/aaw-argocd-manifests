@@ -21,6 +21,14 @@ docs:
 	done
 	cd docs && ln -s README.md index.md
 
+	# Prepend the DAaaS README
+	cd docs && \
+		mv README.md old-README.md && \
+		wget https://raw.githubusercontent.com/StatCan/daaas/master/README.md && \
+		echo >> README.md && \
+		cat  old-README.md >> README.md && \
+		rm old-README.md
+
 	# Replace external URLs with their content
 	find docs -name '*.md' | \
 	while read line; do \

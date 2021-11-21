@@ -15,7 +15,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt-get install --yes curl git make
+          sudo apt-get install --yes curl wget git make
           python -m pip install --upgrade pip
           cd .github/docs/
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
