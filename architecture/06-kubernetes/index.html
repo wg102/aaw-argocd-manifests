@@ -1,0 +1,1755 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Deployment manifests for the AAW">
+      
+      
+      
+      
+        <link rel="canonical" href="https://statcan.github.io/aaw-argocd-manifests/architecture/06-kubernetes/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>Kubernetes - AAW ArgoCD Manifests</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kubernetes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="AAW ArgoCD Manifests" class="md-header__button md-logo" aria-label="AAW ArgoCD Manifests" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AAW ArgoCD Manifests
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Kubernetes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="AAW ArgoCD Manifests" class="md-nav__button md-logo" aria-label="AAW ArgoCD Manifests" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    AAW ArgoCD Manifests
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Architecture
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Architecture" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Architecture
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-introduction/" class="md-nav__link">
+        Securing Advanced Analytics Workspaces
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-limitations/" class="md-nav__link">
+        Limitations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-azure/" class="md-nav__link">
+        Azure Resources
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-classification/" class="md-nav__link">
+        Classification
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-storage/" class="md-nav__link">
+        Storage
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-network/" class="md-nav__link">
+        Network
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Kubernetes
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#workloads-scheduling" class="md-nav__link">
+    Workloads scheduling
+  </a>
+  
+    <nav class="md-nav" aria-label="Workloads scheduling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-labels-taints" class="md-nav__link">
+    Node labels + taints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaces-labels" class="md-nav__link">
+    Namespaces labels
+  </a>
+  
+    <nav class="md-nav" aria-label="Namespaces labels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-selectors-on-workloads" class="md-nav__link">
+    Node selectors on workloads
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gatekeeper-open-policy-agent" class="md-nav__link">
+    Gatekeeper / Open Policy Agent
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-control" class="md-nav__link">
+    Access control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-quotas" class="md-nav__link">
+    Resource quotas
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-kubeflow/" class="md-nav__link">
+        Kubeflow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-appendix-a/" class="md-nav__link">
+        Appendix A: Non-security recommendations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Daaas system
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Daaas system" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Daaas system
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_1" data-md-state="indeterminate" type="checkbox" id="__nav_3_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/namespace-controller/">Namespace controller</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Namespace controller" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Namespace controller
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_2" data-md-state="indeterminate" type="checkbox" id="__nav_3_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/network-policies/">Network policies</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Network policies" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Network policies
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/notebook-controllers/">Notebook controllers</a>
+          
+            <label for="__nav_3_3">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Notebook controllers" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Notebook controllers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_2" data-md-state="indeterminate" type="checkbox" id="__nav_3_3_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/notebook-controllers/goofys-injector/">Goofys injector</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Goofys injector" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_2">
+          <span class="md-nav__icon md-icon"></span>
+          Goofys injector
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/notebook-controllers/minio-credential-injector/">Minio credential injector</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Minio credential injector" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Minio credential injector
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3_4" data-md-state="indeterminate" type="checkbox" id="__nav_3_3_4" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/notebook-controllers/notebook-auth-policy-checker/">Notebook auth policy checker</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Notebook auth policy checker" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Notebook auth policy checker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4" data-md-state="indeterminate" type="checkbox" id="__nav_3_4" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/profile-controllers/">Profile controllers</a>
+          
+            <label for="__nav_3_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Profile controllers" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_4">
+          <span class="md-nav__icon md-icon"></span>
+          Profile controllers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4_2" data-md-state="indeterminate" type="checkbox" id="__nav_3_4_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/profile-controllers/kubeflow-controller/">Kubeflow controller</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Kubeflow controller" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Kubeflow controller
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_4_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_4_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/profile-controllers/profiles-controller/">Profiles controller</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Profiles controller" data-md-level="3">
+        <label class="md-nav__title" for="__nav_3_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Profiles controller
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_5" data-md-state="indeterminate" type="checkbox" id="__nav_3_5" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../daaas-system/workflows-cronjob/">Workflows cronjob</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Workflows cronjob" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_5">
+          <span class="md-nav__icon md-icon"></span>
+          Workflows cronjob
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Statcan system
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Statcan system" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Statcan system
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_1" data-md-state="indeterminate" type="checkbox" id="__nav_4_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../statcan-system/gatekeeper/">Gatekeeper</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Gatekeeper" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_1">
+          <span class="md-nav__icon md-icon"></span>
+          Gatekeeper
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" data-md-state="indeterminate" type="checkbox" id="__nav_4_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../statcan-system/sidecar-terminator/">Sidecar terminator</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Sidecar terminator" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_2">
+          <span class="md-nav__icon md-icon"></span>
+          Sidecar terminator
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_3" data-md-state="indeterminate" type="checkbox" id="__nav_4_3" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../statcan-system/toleration-injector/">Toleration injector</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Toleration injector" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_3">
+          <span class="md-nav__icon md-icon"></span>
+          Toleration injector
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" data-md-state="indeterminate" type="checkbox" id="__nav_5" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Storage system
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Storage system" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Storage system
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1" data-md-state="indeterminate" type="checkbox" id="__nav_5_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../storage-system/kustomize-gateway/">Kustomize gateway</a>
+          
+            <label for="__nav_5_1">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Kustomize gateway" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Kustomize gateway
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_2" data-md-state="indeterminate" type="checkbox" id="__nav_5_1_2" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../storage-system/kustomize-gateway/base/">Base</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Base" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_1_2">
+          <span class="md-nav__icon md-icon"></span>
+          Base
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_3" data-md-state="indeterminate" type="checkbox" id="__nav_5_1_3" checked>
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5_1_3">
+          Overlays
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Overlays" data-md-level="3">
+        <label class="md-nav__title" for="__nav_5_1_3">
+          <span class="md-nav__icon md-icon"></span>
+          Overlays
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_1_3_1" data-md-state="indeterminate" type="checkbox" id="__nav_5_1_3_1" checked>
+      
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../storage-system/kustomize-gateway/overlays/gateway-bundle/">Gateway bundle</a>
+          
+        </div>
+      
+      <nav class="md-nav" aria-label="Gateway bundle" data-md-level="4">
+        <label class="md-nav__title" for="__nav_5_1_3_1">
+          <span class="md-nav__icon md-icon"></span>
+          Gateway bundle
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#workloads-scheduling" class="md-nav__link">
+    Workloads scheduling
+  </a>
+  
+    <nav class="md-nav" aria-label="Workloads scheduling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-labels-taints" class="md-nav__link">
+    Node labels + taints
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#namespaces-labels" class="md-nav__link">
+    Namespaces labels
+  </a>
+  
+    <nav class="md-nav" aria-label="Namespaces labels">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#node-selectors-on-workloads" class="md-nav__link">
+    Node selectors on workloads
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#images" class="md-nav__link">
+    Images
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gatekeeper-open-policy-agent" class="md-nav__link">
+    Gatekeeper / Open Policy Agent
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-control" class="md-nav__link">
+    Access control
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-quotas" class="md-nav__link">
+    Resource quotas
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="kubernetes">Kubernetes</h1>
+<blockquote>
+<p>Note: Generally in this section, the terminology of namespace vs. profile
+is interchangeable. Profiles map directly to a namespace, and in the
+AAW environment user namespaces are not seperately provisioned.</p>
+</blockquote>
+<h2 id="workloads-scheduling">Workloads scheduling</h2>
+<p>Kubernetes has a diverse and powerful scheduler for locating
+user-level resources. Appropriate configuration of resources
+will ensure that workloads get scheduled on the appropriate
+nodes.</p>
+<h3 id="node-labels-taints">Node labels + taints</h3>
+<p>Each node pool in Kubernetes will have a set of labels applied that
+will assist with the scheduling of workloads on the appropriate
+nodes.</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>data.statcan.gc.ca/classification</code></td>
+<td><code>(unclassified|protected-b)</code></td>
+<td>Maximum data classification of the node</td>
+</tr>
+<tr>
+<td><code>node.statcan.gc.ca/purpose</code></td>
+<td><code>(system|user)</code></td>
+<td>Purpose of the node</td>
+</tr>
+</tbody>
+</table>
+<h3 id="namespaces-labels">Namespaces labels</h3>
+<p>System namespaces will be identified by</p>
+<table>
+<thead>
+<tr>
+<th>Label</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>namespace.statcan.gc.ca/purpose</code></td>
+<td><code>(system|daaas|user)</code></td>
+<td>Purpose of the namespace.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="node-selectors-on-workloads">Node selectors on workloads</h4>
+<blockquote>
+<p><strong>Recommendation KUBE-NODE-01</strong>: All pods must have a <code>nodeSelector</code>
+which indicates the criteria for a node selection, requiring
+both the classification and purpose labels for any workload
+being scheduled in the AAW environment. This will be enforced
+by Gatekeeper.</p>
+<p><em>Note: this restriction will not apply to workloads created
+by the Azure Kubernetes Service as we do not have control
+over them.</em></p>
+<p><em>Note: Setting <code>node.statcan.gc.ca/purpose=system</code> as a node selector
+is only permitted from namespaces having <code>namespace.statcan.gc.ca/purpose=system</code>
+and <code>namespace.statcan.gc.ca/purpose=daaas</code>.</em></p>
+<p>If <code>namespace.statcan.gc.ca/purpose</code> is unset on a namespace, then the namespace
+is assumed to be a <code>user</code> namesapce.</p>
+</blockquote>
+<h2 id="images">Images</h2>
+<p>The current Advanced Analytics Workspaces (AAW) environment restricts where
+the container images are authorized to be pulled from
+(https://github.com/StatCan/gatekeeper-policies/blob/master/general/container-allowed-images/constraint.yaml).
+The current list of images is very large and shouldn't be used for
+Protected B workloads.</p>
+<blockquote>
+<p><strong>Recommendation KUBE-IMG-01</strong>: All container images associated
+with platform components must be stored in an AAW controlled
+image repository.</p>
+<p><strong>Recommendation KUBE-IMG-02</strong>: The authorized image list for
+Protected B workloads be restricted to AAW controlled
+image repositories only.</p>
+<p><strong>Recommendation KUBE-IMG-03</strong>: The authorized image list for
+unclassified workloads be further restricted than what is
+currently in place. Ideally, this list should be restricted
+to AAW controller image repositories only.</p>
+<p><strong>Recommendation KUBE-IMG-04</strong>: Images running in the environment
+must align with CIS benchmarks. Images in the production environment
+must be built via an automated build pipeline which includes
+a <code>dockle</code> scan (for CIS benchmarks). In particular, user
+containers must not run as the <code>ROOT</code> user.</p>
+<p>Images built by developers must be restricted to the development
+environment. This can be accomplished via a different repository,
+where the production environment does not have permissions to
+the dev repository.</p>
+<p><strong>Recommendation KUBE-IMG-05</strong>: User namespaces contain image pull
+credentials which restrict read-only access in Artifactory to:</p>
+<ol>
+<li>DAaaS kubeflow images repository</li>
+<li>Repositories assigned to the namespace</li>
+</ol>
+</blockquote>
+<h2 id="gatekeeper-open-policy-agent">Gatekeeper / Open Policy Agent</h2>
+<p>Gatekeeper and the Open Policy Agent provide a mechanism
+for enforcing business policies on Kubernetes resources.
+Gatekeeper is a Kubernetes webhook, which provides a callback
+that is executed when a resource is created, updated
+or deleted.</p>
+<p>Gatekeeper is intented to enforce many of the policies
+suggested in this proposal.</p>
+<blockquote>
+<p><strong>Recommendation KUBE-GK-01</strong>: Gatekeeper be configured
+in a default-closed configuration, ensuring that if
+Gatekeeper is unavailable that all changes are blocked.
+This ensures that policy violations are not introduced
+in the event of a Gatekeeper outage.</p>
+<p><strong>Recommendation KUBE-GK-02</strong>: Gatekeeper configuration
+be reviewed to ensure that it is highly-available
+and will scale with any increased load, to prevent
+a system outage.</p>
+<p><strong>Recommendation KUBE-GK-03</strong>: Existing policies
+in https://github.com/StatCan/gatekeeper-policies be used.
+Any policy currently in "audit" state should be moved
+to enforce state on user namesapces.</p>
+<p><strong>Recommendation KUBE-GK-04</strong>: A gatekeeper policy
+be created which prevents <code>kubectl exec</code> on any pods
+marked with a classification of <code>protected-b</code>.</p>
+<p><strong>Recommendation KUBE-GK-05</strong>: A gatekeeper policy
+be created which prevents <code>kubectl cp</code> on any pods
+marked with a classification of <code>protected-b</code>.</p>
+</blockquote>
+<h2 id="access-control">Access control</h2>
+<p>Kubernetes has a robust Role-Based Access Control (RBAC) system,
+that enables fine-grained control over a user's permissions
+within the cluster.</p>
+<blockquote>
+<p><strong>Recommendation KUBE-RBAC-01</strong>: That the following Azure AD groups
+be created to align with Kubernetes roles:</p>
+<ol>
+<li><strong><code>DAaaS-Breakglass-Admins</code></strong>: Full administrative access
+   to the entire system, including user namespaces.</li>
+</ol>
+<p>Users in this group may access the admin configuration
+   context in the event that Azure AD authentication is
+   not functioning.</p>
+<p>This group should be assigned to admin cloud accounts only,
+   and not to normal user account.
+2. <strong><code>DAaaS-Platform-Admins</code></strong>: Full administrative access to
+   system, no access to DAaaS or user namespaces.
+3. <strong><code>DAaaS-Admins</code></strong>: Access to DAaaS system namespaces,
+   no access to user namespaces.
+4. <strong><code>DAaaS-Support</code></strong>: Limited access to user namespaces to provide
+   general debugging support.
+5. <strong><code>DAaaS-Users</code></strong>: No global RBAC configuration. Users will typically
+   be granted access to any profiles they have access to.</p>
+<p>All "-admins" and "-support" roles are to have the permission to pull
+the Kubernetes configuration file to access the cluster.</p>
+<p><strong>Recommendation KUBE-RBAC-01a</strong>: As an extension of KUBE-RBAC-01,
+this recommendation further elaborates the permissions assigned
+to the <code>DAaaS-Support</code> group.</p>
+<ul>
+<li>Read and list all resources associated with the Kubeflow
+  environment: <code>Profiles</code>, <code>Deployments</code>, <code>Statefulsets</code>, <code>Replicasets</code>,
+  <code>Pods</code>, <code>Notebooks</code>, <code>Workflows</code>, <code>PersistentVolumeClaims</code>, <code>Roles</code>
+  , <code>RoleBindings</code>, <code>Events</code>, <code>ResourceLimits</code>.</li>
+<li>List <code>ConfigMaps</code> and <code>Secrets</code> (no read due to the possibility of
+  of sensitive values)</li>
+<li>Read and list <code>Nodes</code></li>
+</ul>
+<p><strong>Recommendation KUBE-RBAC-02</strong>: Kubeflow assigns a large set of permissions
+to the <code>default-editor</code> account. These permissions should be reviewed and
+restricted to essential/functional needs only.</p>
+<p><em>This is an ongoing excercise outside of this proposal, therefore
+I will not propose specific requirements, but instead strongly
+recommend that the excercise be continued and completed</em>.</p>
+<p><strong>Recommendation KUBE-RBAC-03</strong>: To better restrict user access to the AAW
+environment, access to any web application which allows interaction with
+any compute or storage, other than publicly accessible component, is to
+be limited to the <code>DAaaS-Users</code> group.</p>
+</blockquote>
+<h2 id="resource-quotas">Resource quotas</h2>
+<p>Users, whether intentional or accidental, can perform a "Denial of Service"
+attack against the environment, making the environment unavailable to others.</p>
+<blockquote>
+<p><strong>Recommendation KUBE-RSRC-01</strong>: Resource quotas be implemented on all
+namespaces to prevent an intential or accidental denial of service
+attack against the cluster.</p>
+<p>Info: <a href="https://kubernetes.io/docs/concepts/policy/resource-quotas/">https://kubernetes.io/docs/concepts/policy/resource-quotas/</a></p>
+<p><strong>A further excercise will be required to identify reasonable
+limits to put in place for each namespace</strong>.</p>
+</blockquote>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../05-network/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Network" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Network
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../07-kubeflow/" class="md-footer__link md-footer__link--next" aria-label="Next: Kubeflow" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Kubeflow
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; 2021 Statistics Canada
+          </div>
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.expand", "navigation.indexes"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>
