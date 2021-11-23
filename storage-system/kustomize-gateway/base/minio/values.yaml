@@ -5,7 +5,7 @@ global:
   minio:
     existingSecret: minio-gateway-secret
 gateway:
-  enabled: true
+  enabled: false
   replicaCount: 1
   type: azure
   updateStrategy:
@@ -56,10 +56,12 @@ initContainers:
   volumeMounts:
   - mountPath: /custom
     name: minio-sh
+# Modification here.
 image:
-  registry: k8scc01covidacr.azurecr.io
-  repository: minio
+  registry: docker.io #k8scc01covidacr.azurecr.io
+  repository: bitnami/minio
   tag: 2021.5.27-debian-10-r8
+  #6379f1af
   # registry: docker.io
   # repository: bitnami/minio
   # tag: 2021.5.27-debian-10-r8
