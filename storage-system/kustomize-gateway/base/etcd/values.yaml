@@ -5,12 +5,13 @@ auth:
   rbac:
     enabled: false
 image:
-  # registry: docker.io
-  # repository: bitnami/etcd
-  # tag: 3.5.0-debian-10-r64
-  registry: k8scc01covidacr.azurecr.io
-  repository: etcd
+# use the bitnani instead of k8s
+  registry: docker.io
+  repository: bitnami/etcd
   tag: 3.5.0-debian-10-r64
+  # registry: k8scc01covidacr.azurecr.io
+  # repository: etcd
+  # tag: 3.5.0-debian-10-r64
 replicaCount: 1
 persistence:
   enabled: false
