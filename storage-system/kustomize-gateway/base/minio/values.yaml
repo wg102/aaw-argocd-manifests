@@ -48,6 +48,7 @@ initContainers:
     echo 'sleep 15' >> /custom/minio.sh
     echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
     echo 'echo "Sidecar is ready."' >> /custom/minio.sh
+    echo 'mkdir /repo' >> /custom/minio.sh
     echo 'echo exec minio $@' >> /custom/minio.sh
     echo 'exec minio $@' >> /custom/minio.sh
     chmod 555 /custom/minio.sh
@@ -67,7 +68,7 @@ image:
   # tag: 2021.5.27-debian-10-r8
 # Wait for the istio proxy
 command: ["sh", "/minio.sh"]
-args: ["server /mnt"]
+args: ["server /repo"]
 ingress:
   enabled: false
   hostname: storage-system.aaw.cloud.statcan.ca
