@@ -67,6 +67,7 @@ image:
   # tag: 2021.5.27-debian-10-r8
 # Wait for the istio proxy
 command: ["sh", "/minio.sh"]
+args: ["server"]
 ingress:
   enabled: false
   hostname: storage-system.aaw.cloud.statcan.ca
