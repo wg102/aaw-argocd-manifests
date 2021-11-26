@@ -49,6 +49,8 @@ initContainers:
     echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
     echo 'echo "Sidecar is ready."' >> /custom/minio.sh
     echo 'mkdir /repo' >> /custom/minio.sh
+    echo 'chmod 777 /repo' >> /custom/minio.sh
+    echo 'chown nobody:nobody /repo' >> /custom/minio.sh
     echo 'echo exec minio $@' >> /custom/minio.sh
     echo 'exec minio $@' >> /custom/minio.sh
     chmod 777 /custom/minio.sh
