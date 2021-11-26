@@ -45,11 +45,11 @@ initContainers:
   - -c
   - |
     echo '#!/bin/sh' > /custom/minio.sh
-    echo 'sleep 597' >> /custom/minio.sh
+    echo 'sleep 15' >> /custom/minio.sh
     echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
     echo 'echo "Sidecar is ready."' >> /custom/minio.sh
     echo 'mkdir /repo' >> /custom/minio.sh
-    echo 'sudo chown -R nobody:nobody /repo && sudo chmod u+rxw /repo' >> /custom/minio.sh
+    echo 'sudo chown -R nobody /repo && sudo chmod u+rxw /repo' >> /custom/minio.sh
     echo 'echo exec minio $@' >> /custom/minio.sh
     echo 'exec minio $@' >> /custom/minio.sh
     chmod 777 /custom/minio.sh
