@@ -45,7 +45,7 @@ initContainers:
   - -c
   - |
     echo '#!/bin/sh' > /custom/minio.sh
-    echo 'sleep 600' >> /custom/minio.sh
+    echo 'sleep 599' >> /custom/minio.sh
     echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
     echo 'echo "Sidecar is ready."' >> /custom/minio.sh
     echo 'mkdir /repo' >> /custom/minio.sh
