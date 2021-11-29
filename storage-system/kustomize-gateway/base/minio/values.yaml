@@ -45,14 +45,13 @@ initContainers:
   - -c
   - |
     echo '#!/bin/sh' > /custom/minio.sh
-    echo 'sleep 15' >> /custom/minio.sh
     echo 'echo "Waiting for sidecar..."' >> /custom/minio.sh
     echo 'echo "Sidecar is ready."' >> /custom/minio.sh
     echo 'mkdir repo' >> /custom/minio.sh
     echo 'sudo chown -R nobody repo && sudo chmod u+rxw repo' >> /custom/minio.sh
     echo 'echo exec minio $@' >> /custom/minio.sh
     echo 'exec minio $@' >> /custom/minio.sh
-    chmod 777 /custom/minio.sh
+    chmod 555 /custom/minio.sh
     chown nobody:nobody /custom/minio.sh
     echo "Wrote the minio.sh script to shared volume."
   volumeMounts:
@@ -60,9 +59,12 @@ initContainers:
     name: minio-sh
 # Modification here.
 image:
-  registry: docker.io #k8scc01covidacr.azurecr.io
-  repository: bitnami/minio
-  tag: 2021.5.27-debian-10-r8
+  registry: k8scc01covidacr.azurecr.io
+  repository: minio/minio
+  tag: mytest
+  # registry: docker.io #k8scc01covidacr.azurecr.io
+  # repository: bitnami/minio
+  # tag: 2021.5.27-debian-10-r8
   #6379f1af
   # registry: docker.io
   # repository: bitnami/minio
