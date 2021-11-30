@@ -51,7 +51,7 @@ initContainers:
     echo 'sudo chown -R nobody repo && sudo chmod u+rxw repo' >> /custom/minio.sh
     echo 'echo exec minio $@' >> /custom/minio.sh
     echo 'exec minio $@' >> /custom/minio.sh
-    chmod 555 /custom/minio.sh
+    chmod 777 /custom/minio.sh
     chown nobody:nobody /custom/minio.sh
     echo "Wrote the minio.sh script to shared volume."
   volumeMounts:
