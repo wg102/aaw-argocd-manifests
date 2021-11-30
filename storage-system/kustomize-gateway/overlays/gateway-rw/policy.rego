@@ -50,6 +50,13 @@ allow {
   p == {"action": input.action}
 }
 
+allow {
+  input.bucket == "meowmeow"
+  permissions := rl_permissions["user"]
+  p := permissions[_]
+  p == {"action": input.action}
+}
+
 ##
 ## SHARED BUCKET
 ##
